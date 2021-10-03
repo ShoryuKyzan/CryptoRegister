@@ -1,0 +1,35 @@
+$lightBg: #7ec07e;
+
+.Header {
+    .wrapper {
+        background-color: white;
+        height: 4em;
+        display: flex;
+        border-bottom: .2em solid darkgreen;
+    }
+    .left {
+        margin: auto;
+        flex-grow: 1;
+    }
+    .title {
+        text-align: center;
+        color: darkgreen;
+        font-weight: bold;
+        font-size: 1.6em;
+        text-transform: uppercase;
+    }
+    .right {
+        width: 5em;
+        margin: auto;
+        text-align: center;
+    }
+    .addButton {
+        width: 4em;
+        height: 3em;
+        border: 1px solid darkgreen;
+        border-radius: 0.75em;
+        background: $lightBg;
+        color: black;
+        font-weight: bold;
+    }
+}

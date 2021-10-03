@@ -1,5 +1,6 @@
-/// UNUSED SO FAR
-/// I Will work on this later later
+// UNUSED SO FAR
+// will add this feature later
+// this is based on code i did for another project, but multiple things are now out of date (in just a year's time!). Ill fix this all up later. I'm hoping there's a pre-made "stick to top" kind of functionality...
 
 /**
  * Causes an element to stick to the top of a scrollable container.

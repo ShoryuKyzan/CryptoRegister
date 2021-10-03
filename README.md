@@ -1,14 +1,17 @@
 # Intro
 
-* TODO make responsive, mobile first
-* TODO say how to use it
+Crypto transaction records. Lists transactions made for items from particular vendors. Add/remove functionality.
+Prices are recorded in terms of crypto and converted to a USD amount. Prices refreshed every 2 minutes.
+
+## TODOS
+* make responsive, mobile first
+* tutorial on use above.
+* Auto-refresh every 20 seconds.
+* ? Errors reported.
+* beware of rate limits
 
 # Features
 
-* TODO Auto-refresh every 20 seconds.
-* TODO ? Errors reported.
-* TODO Touch-enabled sidebar (swipe open from left or use menu icon).
-* TODO beware of rate limits
 
 # How to run
 
