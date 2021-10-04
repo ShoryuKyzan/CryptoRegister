@@ -99,16 +99,16 @@ export class TransactionRow extends React.Component<_Props, _State> {
         this.setState({editingValues: o});
     }
     render(){
-        const t: Transaction = {
-            id: parseInt(this.state.editingValues['id'].toString(), 10),
-            merchant: this.state.editingValues['merchant'].toString(),
-            item: this.state.editingValues['item'].toString(),
-            amount: parseInt(this.state.editingValues['amount'].toString(), 10),
-            cryptoName: this.state.editingValues['cryptoName'].toString()
+        const t: _TransactionValues = {
+            'id': parseInt(this.state.editingValues['id'].toString(), 10),
+            'merchant': this.state.editingValues['merchant'].toString(),
+            'item': this.state.editingValues['item'].toString(),
+            'amount': parseInt(this.state.editingValues['amount'].toString(), 10),
+            'cryptoName': this.state.editingValues['cryptoName'].toString()
         }
         const currentPrice = this.props.priceList && this.props.priceList[t.cryptoName] ? this.props.priceList[t.cryptoName].price : 0;
         const cryptoPrice = currentPrice.toFixed(2);
-        const dollarAmount = (currentPrice * t.amount).toFixed(2)
+        const dollarAmount = (currentPrice * parseFloat(t['amount'].toString())).toFixed(2)
         return (
             <div className="TransactionRow">
                 {/* items move around depending on desktop or mobile */}
@@ -118,23 +118,23 @@ export class TransactionRow extends React.Component<_Props, _State> {
                     <div className="merchant">
                         <EditableTextField name="merchant"
                             onChange={(name, val) => this.setFieldValue(name, val)}
-                            editing={this.state.editing} value={t.merchant}/>
+                            editing={this.state.editing} value={t['merchant']}/>
                     </div>
                     <div className="item">
                         <EditableTextField name="item"
                             onChange={(name, val) => this.setFieldValue(name, val)}
-                            editing={this.state.editing} value={t.item}/>
+                            editing={this.state.editing} value={t['item']}/>
                     </div>
                 </div>
                 <div className="merchant desktop">
                     <EditableTextField name="merchant"
                         onChange={(name, val) => this.setFieldValue(name, val)}
-                        editing={this.state.editing} value={t.merchant}/>
+                        editing={this.state.editing} value={t['merchant']}/>
                 </div>
                 <div className="item desktop">
                     <EditableTextField name="item"
                         onChange={(name, val) => this.setFieldValue(name, val)}
-                        editing={this.state.editing} value={t.item}/>
+                        editing={this.state.editing} value={t['item']}/>
                 </div>
                 <div className="header amountHeader mobile">
                     <span className="cellHeader">Amount</span>
@@ -143,16 +143,16 @@ export class TransactionRow extends React.Component<_Props, _State> {
                     <span className="amountNumber">
                         <EditableTextField name="amount"
                             onChange={(name, val) => this.setFieldValue(name, val)}
-                            editing={this.state.editing} value={t.amount.toFixed(8)}/>
+                            editing={this.state.editing} value={parseFloat(t['amount'].toString()).toFixed(8)}/> {/* a little issue here.. but im out of time */}
                     </span>
                     <span className="currency">
                         <EditableTextField name="cryptoName"
                             onChange={(name, val) => this.setFieldValue(name, val)}
-                            editing={this.state.editing} value={t.cryptoName}/>
+                            editing={this.state.editing} value={t['cryptoName']}/>
                     </span>
                 </div>
                 <div className="currencyPrice desktop">${cryptoPrice}</div>
-                <div className="conversion">x ${cryptoPrice} USD/{t.cryptoName} = </div>
+                <div className="conversion">x ${cryptoPrice} USD/{t['cryptoName']} = </div>
                 <div className="total">${dollarAmount}</div>
                 <div className="actions">
                     <button className={this.state.editing ? 'hide' : 'show'}
