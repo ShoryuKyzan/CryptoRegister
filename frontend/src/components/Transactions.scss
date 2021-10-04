@@ -1,42 +1,79 @@
 $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copying it for the sake of time...*/
 
 .Transactions {
-    .item {
-        display: grid;
-        // @media (max-width: $phoneWidth) {
-        // TODO: mobile
-        //     grid-template-columns: 1fr 1fr;
-        //     grid-template-rows: auto;
-        //     grid-template-areas:
-        //     "merchant ."
-        //     "item ."
-        //     "amount currency"
-        //     "currencyPrice ."
-        //     "total .";
-        //     align-items: center;
-        // }
-        @media (min-width: $phoneWidth) {
+    .row {
+        & .amount > .currency,
+        & > .conversion {
+            display: none
+        }
+        & > .header {
+            display: none;
+            color: gray;
+        }
+    }
+
+    @media (max-width: $phoneWidth) {
+        .desktopHeader {
+            display: none;
+        }
+        .row {
+            margin-top: 0.5em;
+            padding: 0.5em;
+            font-size: 1.2em;
+            border: 1px solid darkgreen; /* XXX */
+            .itemHeader + .itemHeader {
+                margin-left: 1em;
+            }
+            .header {
+                display: block;
+            }
+            .secondHeader {
+                margin-top: 0.3em;
+            }
+            .merchant, .item {
+                display: inline-block;
+            }
+            .merchant + .item {
+                margin-left: 2%;
+            }
+            .amount > .currency {
+                display: inline-block;
+                margin-left: 0.3em;
+            }
+            .currency {
+                display: none
+            }
+            .currencyPriceDesktop {
+                display: none
+            }
+            .conversion {
+                display: block
+            }
+        }
+    }
+    @media (min-width: $phoneWidth) {
+        .row {
+            display: grid;
             grid-template-columns: repeat(6, 1fr);
             grid-template-areas: "merchant item amount currency currencyPrice total";
-        }
-
-        .merchant {
-            grid-area: merchant;
-        }
-        .item {
-            grid-area: item;
-        }
-        .amount {
-            grid-area: amount;
-        }
-        .currency {
-            grid-area: currency;
-        }
-        .currencyPrice {
-            grid-area: currencyPrice;
-        }
-        .total {
-            grid-area: total;
+            .merchant {
+                grid-area: merchant;
+            }
+            .item {
+                grid-area: item;
+            }
+            .amount {
+                grid-area: amount;
+            }
+            .currency {
+                grid-area: currency;
+            }
+            .currencyPriceDesktop {
+                grid-area: currencyPrice;
+            }
+            .total {
+                grid-area: total;
+            }
         }
     }
 }
