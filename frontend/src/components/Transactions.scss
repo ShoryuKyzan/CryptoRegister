@@ -5,8 +5,7 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
         .conversion {
             display: none
         }
-        .header {
-            display: none;
+        .cellHeader {
             color: gray;
         }
         .amount > .currency {
@@ -15,7 +14,7 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
     }
 
     @media (max-width: $phoneWidth) {
-        .desktopHeader {
+        .desktop {
             display: none;
         }
         .row {
@@ -23,12 +22,10 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
             margin: 0.5em 0.5em;
             padding: 0.5em;
             font-size: 1.2em;
-            border: 1px solid darkgreen; /* XXX */
-            .itemHeader + .itemHeader {
-                margin-left: 1em;
-            }
+            border: 1px solid darkgreen;
             .header {
-                display: block;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
             }
             .secondHeader {
                 margin-top: 0.3em;
@@ -36,13 +33,10 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
             .merchant, .item {
                 display: inline-block;
             }
-            .merchant + .item {
-                margin-left: 2%;
-            }
             .amount > .currency {
                 display: inline-block;
             }
-            .currencyPriceDesktop {
+            .desktop {
                 display: none
             }
             .conversion {
@@ -51,6 +45,9 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
         }
     }
     @media (min-width: $phoneWidth) {
+        .mobile {
+            display: none;
+        }
         padding: 1em 2em 0;
         .desktopHeader {
             padding-bottom: 0.5em;
@@ -59,16 +56,16 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             grid-template-areas: "merchant item amount currencyPrice total";
-            .merchant {
+            .merchant.desktop {
                 grid-area: merchant;
             }
-            .item {
+            .item.desktop {
                 grid-area: item;
             }
             .amount {
                 grid-area: amount;
             }
-            .currencyPriceDesktop {
+            .currencyPrice.desktop {
                 grid-area: currencyPrice;
             }
             .total {

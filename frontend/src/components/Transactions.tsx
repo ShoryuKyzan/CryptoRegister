@@ -71,33 +71,31 @@ class Transactions extends React.Component {
         this.data.forEach((t: Transaction) => {
             rows.push(
             <div className="row">
-                {/* mobile only */}
-                <div className="header">
-                    <span className="itemHeader">Merchant Name</span>
-                    <span className="itemHeader">Item</span>
+                {/* items move around depending on desktop or mobile */}
+                <div className="header mobile">
+                    <div className="cellHeader">Merchant Name</div>
+                    <div className="cellHeader">Item</div>
+                    <div className="merchant">{t.merchant}</div>
+                    <div className="item">{t.item}</div>
                 </div>
-                <div className="merchant">{t.merchant}</div>
-                <div className="item">{t.item}</div>
-                {/* mobile only */}
-                <div className="header secondHeader">
-                    <span className="itemHeader">Amount</span>
+                <div className="merchant desktop">{t.merchant}</div>
+                <div className="item desktop">{t.item}</div>
+                <div className="header secondHeader mobile">
+                    <span className="cellHeader">Amount</span>
                 </div>
-                {/* extra currency indicator is mobile only */}
                 <div className="amount">{t.amount}<span className="currency">{t.crypto.name}</span></div>
-                {/* desktop only */}
-                <div className="currencyPriceDesktop">${t.crypto.price}</div>
-                {/* mobile only */}
+                <div className="currencyPrice desktop">${t.crypto.price}</div>
                 <div className="conversion">x ${t.crypto.price} USD/{t.crypto.name} = </div>
                 <div className="total">${t.crypto.price * t.amount}</div>
             </div>);
         });
         return (
             <div className="Transactions">
-                <div className="row desktopHeader">
+                <div className="row desktop">
                     <div className="merchant">Merchant Name</div>
                     <div className="item">Item</div>
                     <div className="amount">Amount (Crypto)</div>
-                    <div className="currencyPrice">Price/crypto (USD)</div>
+                    <div className="currencyPrice desktop">Price/crypto (USD)</div>
                     <div className="total">Amount (USD)</div>
                 </div>
                 {rows}
