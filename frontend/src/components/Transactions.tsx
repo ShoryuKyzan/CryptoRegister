@@ -79,7 +79,6 @@ class Transactions extends React.Component {
                 </div>
                 {/* extra currency indicator is mobile only */}
                 <div className="amount">{t.amount}<span className="currency">{t.crypto.name}</span></div>
-                <div className="currency">{t.crypto.name}</div>
                 {/* desktop only */}
                 <div className="currencyPriceDesktop">${t.crypto.price}</div>
                 {/* mobile only */}
@@ -93,7 +92,6 @@ class Transactions extends React.Component {
                     <div className="merchant">Merchant Name</div>
                     <div className="item">Item</div>
                     <div className="amount">Amount (Crypto)</div>
-                    <div className="currency">Currency</div>
                     <div className="currencyPrice">Price/crypto (USD)</div>
                     <div className="total">Amount (USD)</div>
                 </div>

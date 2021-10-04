@@ -2,13 +2,15 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
 
 .Transactions {
     .row {
-        & .amount > .currency,
         & > .conversion {
             display: none
         }
         & > .header {
             display: none;
             color: gray;
+        }
+        .amount > .currency {
+            margin-left: 0.3em;
         }
     }
 
@@ -38,10 +40,6 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
             }
             .amount > .currency {
                 display: inline-block;
-                margin-left: 0.3em;
-            }
-            .currency {
-                display: none
             }
             .currencyPriceDesktop {
                 display: none
@@ -54,8 +52,8 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
     @media (min-width: $phoneWidth) {
         .row {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            grid-template-areas: "merchant item amount currency currencyPrice total";
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-areas: "merchant item amount currencyPrice total";
             .merchant {
                 grid-area: merchant;
             }
@@ -64,9 +62,6 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
             }
             .amount {
                 grid-area: amount;
-            }
-            .currency {
-                grid-area: currency;
             }
             .currencyPriceDesktop {
                 grid-area: currencyPrice;
