@@ -9,37 +9,11 @@ Prices are recorded in terms of crypto and converted to a USD amount. Prices ref
 * In-line editing fields
 * Numbers are right-aligned for easy readability
 * TODO: fix mobile landscape view. Big numbers break it.
+* Note: There's a few things that don't quite work yet.
 
 # How to run
 
-Set up a docker environment.
-
-## Production
-
-* This was designed to run on one machine inside a docker engine.
-* run ./prod-build.sh, then ./prod-up.sh
-* Will run frontend on port 80
-* Will run backend on port 8000
-
-## Development
-
-### Frontend
-* cd frontend/
-* Run npm install
-* Run npm start
-* Navigate browser to localhost:3000 (it may open for you)
-* Make changes to source files and the browser will auto-refresh.
-
-### Backend
-* cd backend/
-* Run npm install -g nodemon
-* Run npm install
-* Run nodemon main.js
-* Will run an API server on port 8000
-* You can also just run ./dev-build.sh, ./dev-up.sh to start a backend in your docker engine (also running on port 8000, forwarded to your local 8000).
-
-# Changelog
-
-## TODO
-
-* TODO
+Backend: npm start
+    Runs on port 8080.
+Frontend: npm start
+    Runs on port 3000.
