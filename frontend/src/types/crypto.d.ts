@@ -1,5 +1,5 @@
 export interface Crypto {
     name: string;
-    price: string;
+    price: number;
     updated: number;
 }

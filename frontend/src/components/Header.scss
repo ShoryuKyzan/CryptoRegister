@@ -1,4 +1,4 @@
-$phoneWidth: 480px;
+$phoneWidth: 480px; /* tried to import a global file, it didnt work, just copying it for the sake of time...*/
 
 $lightBg: #7ec07e;
 
@@ -24,7 +24,7 @@ $lightBg: #7ec07e;
         text-transform: uppercase;
     }
     .right {
-        @media (min-width: $phoneWidth) {
+       @media (min-width: $phoneWidth) {
             display: none
         }
         width: 5em;

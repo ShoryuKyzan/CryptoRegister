@@ -3,6 +3,8 @@
 Crypto transaction records. Lists transactions made for items from particular vendors. Add/remove functionality.
 Prices are recorded in terms of crypto and converted to a USD amount. Prices refreshed every 2 minutes.
 
+* Learned something new for this: CSS Grid responsive tables.
+
 ## TODOS
 * make responsive, mobile first
 * tutorial on use above.
