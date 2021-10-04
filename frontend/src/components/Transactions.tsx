@@ -9,7 +9,8 @@ import {TransactionRow} from './TransactionRow';
 interface _Props {
     priceList: CryptoDict,
     items: Transaction[],
-    onSaved: (val: Transaction) => void
+    onSaved: (val: Transaction) => void,
+    onDelete: (val: Transaction) => void
 }
 interface _State {
     adding: boolean
@@ -25,7 +26,7 @@ class Transactions extends React.Component<_Props, _State> {
         const rows: JSX.Element[] = [];
         let i = 0;
         this.props.items.forEach((t: Transaction) => {
-            rows.push(<TransactionRow onSaved={this.props.onSaved} priceList={this.props.priceList} key={i} transaction={t}/>);
+            rows.push(<TransactionRow onDelete={this.props.onDelete} onSaved={this.props.onSaved} priceList={this.props.priceList} key={i} transaction={t}/>);
             i += 1;
         });
         let addFields: JSX.Element | undefined = <div></div>;

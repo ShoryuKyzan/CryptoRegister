@@ -30,6 +30,7 @@ const _defaultProps = {
 interface _Props {
     editing?: boolean|undefined
     onSaved?: (val: Transaction) => void|undefined
+    onDelete?: (val: Transaction) => void|undefined
     transaction: Transaction,
     priceList?: CryptoDict
 };
@@ -65,6 +66,18 @@ export class TransactionRow extends React.Component<_Props, _State> {
             this.props.onSaved(t);
         }
 
+    }
+    delete(){
+        if(this.props.onDelete){
+            let t: Transaction = {
+                id: parseInt(this.state.editingValues['id'].toString(), 10),
+                merchant: this.state.editingValues['merchant'].toString(),
+                item: this.state.editingValues['item'].toString(),
+                amount: parseInt(this.state.editingValues['amount'].toString(), 10),
+                cryptoName: this.state.editingValues['cryptoName'].toString()
+            }
+            this.props.onDelete(t);
+        }
     }
 
     resetEditing(){
@@ -154,9 +167,10 @@ export class TransactionRow extends React.Component<_Props, _State> {
                             this.resetEditing();
                             this.setState({editing: false});
                         }}>Cancel</button>
-                    <button className={this.state.editing ? 'hide' : 'show'}>
-                        Delete
-                    </button>
+                    <button className={this.state.editing ? 'hide' : 'show'}
+                    onClick={() => {
+                        this.delete();
+                    }}>Delete</button>
                 </div>
             </div>
         );

@@ -44,10 +44,11 @@ export default class API {
         return callGETMethod(this.url + '/prices');
     }
 
-    save(t: Transaction) {
+    save(t: Transaction): Promise<Transaction|{}> {
         return callPOSTMethod(this.url + '/save', JSON.stringify(t));
     }
 
-    delete(id: number) {
+    delete(t: Transaction) {
+        return callGETMethod(this.url + '/delete?id=' + t.id.toString());
     }
 }

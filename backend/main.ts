@@ -167,14 +167,52 @@ app.post('/save', cors(copts), (req, res) => {
         const updatedRecord = req.body;
         // they are filed by index
         // 1-based id's
-        transactions[updatedRecord.id - 1] = updatedRecord;
-        console.log('updated', transactions[updatedRecord.id - 1]);
+        if(updatedRecord.id < 0){
+            let newId = 1;
+            if(transactions.length > 0){
+                newId = transactions[transactions.length - 1].id + 1
+            }
+            if(!cryptos[updatedRecord.cryptoName]){
+                throw Error(updatedRecord.cryptoName + ' is not currently supported by this backend')
+            }
+            updatedRecord.id = newId;
+            transactions.push(updatedRecord);    
+            console.log('added', transactions[updatedRecord.id - 1]);
+        }else{
+            transactions[updatedRecord.id - 1] = updatedRecord;
+            console.log('updated', transactions[updatedRecord.id - 1]);
+        }
+        save();
+        res.send(JSON.stringify(updatedRecord));
+    }catch(e){
+        res.sendStatus(500);
+        res.statusMessage = e
+        console.error('request error', e);
+    }
+});
+app.get('/delete', cors(copts), (req, res) => {
+    try {
+        const id = parseInt(req.query.id.toString(), 10);
+        console.log('deleting', id, transactions[id - 1]); 
+        if(id > 0 && id <= transactions.length){
+            // find id quickly.. a hash map would help here. last minuting here..
+            let idx = 0
+            for(; idx < transactions.length; idx += 1){
+                if(transactions[idx].id === id){
+                    break;
+                }
+            }
+            transactions.splice(idx, 1);
+            console.log('id', id, transactions); // XXX
+        }
         save();
         res.send(JSON.stringify({}));
     }catch(e){
         res.sendStatus(500);
+        res.statusMessage = e
         console.error('request error', e);
     }
 });
+
 
 app.listen(port, () => console.log(`Server started on ${port}!`));

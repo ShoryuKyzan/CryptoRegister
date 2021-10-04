@@ -38,6 +38,7 @@ class App extends React.Component<{}, _State> {
   load() {
     this.setLoading(true);
     this.api.getItems().then((items: Transaction[]) => {
+      console.log('got items', items); // XXX
       this.setState({transactions: items});
     }).then(() => {
       this.refreshPrices();
@@ -66,11 +67,18 @@ class App extends React.Component<{}, _State> {
   }
 
   save(t: Transaction){
-    // t.id is invalid? its a new one...
     this.setLoading(true);
     this.api.save(t)
     .finally(() => {
-      this.setLoading(false);
+      this.load(); // TODO, just add to the end of the existing list if new item
+    });
+  }
+
+  delete(t: Transaction){
+    this.setLoading(true);
+    this.api.delete(t)
+    .finally(() => {
+      this.load(); // TODO, modify the local list too.
     });
   }
 
@@ -100,7 +108,9 @@ class App extends React.Component<{}, _State> {
         <div className={"content " + loadingClass}>
           {/* scrollable container */}
           {/* admittedly passing pricedict down isn't the best solution (use redux), but this will have to do for short term finishing this */}
-          <Transactions onSaved={(t: Transaction) => this.save(t)} priceList={this.state.priceDict} items={this.state.transactions}/>
+          <Transactions onSaved={(t: Transaction) => this.save(t)} 
+            onDelete={(t: Transaction) => this.delete(t)} 
+            priceList={this.state.priceDict} items={this.state.transactions}/>
           {isLoading}
         </div>
       </div>
