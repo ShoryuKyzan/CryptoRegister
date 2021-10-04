@@ -72,6 +72,7 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
         display: grid;
         grid-template-columns: repeat(5, 1fr) 8em;
         grid-template-areas: "merchant item amount currencyPrice total";
+        margin-bottom: 0.5em;
         .merchant.desktop {
             grid-area: merchant;
         }

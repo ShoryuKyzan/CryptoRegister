@@ -3,3 +3,7 @@ export interface Crypto {
     price: number;
     updated: number;
 }
+
+export interface CryptoDict {
+    [name: string]: Crypto
+}
