@@ -2,10 +2,10 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
 
 .Transactions {
     .row {
-        & > .conversion {
+        .conversion {
             display: none
         }
-        & > .header {
+        .header {
             display: none;
             color: gray;
         }
@@ -19,7 +19,8 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
             display: none;
         }
         .row {
-            margin-top: 0.5em;
+            border-radius: 0.8em;
+            margin: 0.5em 0.5em;
             padding: 0.5em;
             font-size: 1.2em;
             border: 1px solid darkgreen; /* XXX */
@@ -50,6 +51,10 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
         }
     }
     @media (min-width: $phoneWidth) {
+        padding: 1em 2em 0;
+        .desktopHeader {
+            padding-bottom: 0.5em;
+        }
         .row {
             display: grid;
             grid-template-columns: repeat(5, 1fr);

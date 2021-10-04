@@ -20,7 +20,8 @@ const cryptos: Crypto[] = [
     }
 ];  // XXX dummy data
 
-const transactions: Transaction[] = [
+let transactions: Transaction[] = [];
+const _templates: Transaction[] = [
     {
         'merchant': 'Alphabelle',
         'item': 'Crystal',
@@ -57,7 +58,11 @@ const transactions: Transaction[] = [
         'amount': 1,
         'crypto': cryptos[1]
     }
-]; // XXX dummy data
+];
+for(let i = 0; i < 20; i += 1) {
+    transactions.unshift(..._templates);
+}
+ // XXX dummy data
 
 class Transactions extends React.Component {
     data: Transaction[] = transactions;
