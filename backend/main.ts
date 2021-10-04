@@ -31,36 +31,42 @@ let cryptos: CryptoDict = {
 let transactions: Transaction[] = [];
 const _templates: Transaction[] = [
     {
+        id: -1,
         'merchant': 'Alphabelle',
         'item': 'Crystal',
         'amount': 999.99,
         'cryptoName': 'BTC'
     },
     {
+        id: -1,
         'merchant': 'Haven',
         'item': 'Winged Crown',
         'amount': 100000001.11,
         'cryptoName': 'LINK'
     },
     {
+        id: -1,
         'merchant': 'Starscout',
         'item': 'Rounded Diamond',
         'amount': 0.1,
         'cryptoName': 'ETH'
     },
     {
+        id: -1,
         'merchant': 'Haven',
         'item': 'Flying Dog',
         'amount': 2000000000002.11,
         'cryptoName': 'BTC'
     },
     {
+        id: -1,
         'merchant': 'Moonbeam',
         'item': 'Macaroni',
         'amount': 0.2,
         'cryptoName': 'LINK'
     },
     {
+        id: -1,
         'merchant': 'Trailblazer',
         'item': 'Silver Star Pin',
         'amount': 1,
@@ -70,6 +76,12 @@ const _templates: Transaction[] = [
 for(let i = 0; i < 20; i += 1) {
     transactions.unshift(..._templates);
 }
+// Create IDs
+let i = 1;
+transactions.forEach((t) => {
+    t.id = i;
+    i += 1; 
+});
 // XXX dummy data
 
 // //////////////////////////////////////

@@ -30,6 +30,7 @@ class Transactions extends React.Component<_Props, _State> {
         let addFields: JSX.Element | undefined = <div></div>;
         if(this.state.adding){
             addFields = <TransactionRow editing={true} transaction={{
+                id: -1,
                 merchant: '',
                 item: '',
                 amount: 0,
