@@ -22,7 +22,12 @@ interface _TransactionValues {
     [name: string]: string|number;
 };
 
+const _defaultProps = {
+    editing: false
+};
 interface _Props {
+    editing?: boolean|undefined
+    onSaved?: () => void|undefined
     transaction: Transaction
 };
 interface _State {
@@ -31,9 +36,10 @@ interface _State {
 };
 export class TransactionRow extends React.Component<_Props, _State> {
     constructor(props: _Props){
+        props = {..._defaultProps, ...props}
         super(props)
         this.state = {
-            editing: false,
+            editing: props.editing ? true : false,
             editingValues: {
                 'merchant': props.transaction.merchant,
                 'item': props.transaction.item,
@@ -97,7 +103,12 @@ export class TransactionRow extends React.Component<_Props, _State> {
                     <button className={this.state.editing ? 'hide' : 'show'}
                          onClick={() => this.setState({editing: true})}>Edit</button>
                     <button className={this.state.editing ? 'show' : 'hide'}
-                        onClick={() => this.setState({editing: false})}>Done</button>
+                        onClick={() => {
+                            this.setState({editing: false});
+                            if(this.props.onSaved){
+                                this.props.onSaved();
+                            }
+                        }}>Done</button>
                     <button className={this.state.editing ? 'hide' : 'show'}>
                         Delete
                     </button>
