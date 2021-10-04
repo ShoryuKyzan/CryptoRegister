@@ -1,76 +1,7 @@
 $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copying it for the sake of time...*/
 
 .Transactions {
-    .row {
-        .conversion {
-            display: none
-        }
-        .cellHeader {
-            color: gray;
-        }
-        .amount > .currency {
-            margin-left: 0.3em;
-        }
-    }
-
-    @media (max-width: $phoneWidth) {
-        .desktop {
-            display: none;
-        }
-        .row {
-            border-radius: 0.8em;
-            margin: 0.5em 0.5em;
-            padding: 0.5em;
-            font-size: 1.2em;
-            border: 1px solid darkgreen;
-            .header {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .secondHeader {
-                margin-top: 0.3em;
-            }
-            .merchant, .item {
-                display: inline-block;
-            }
-            .amount > .currency {
-                display: inline-block;
-            }
-            .desktop {
-                display: none
-            }
-            .conversion {
-                display: block
-            }
-        }
-    }
     @media (min-width: $phoneWidth) {
-        .mobile {
-            display: none;
-        }
         padding: 1em 2em 0;
-        .desktopHeader {
-            padding-bottom: 0.5em;
-        }
-        .row {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            grid-template-areas: "merchant item amount currencyPrice total";
-            .merchant.desktop {
-                grid-area: merchant;
-            }
-            .item.desktop {
-                grid-area: item;
-            }
-            .amount {
-                grid-area: amount;
-            }
-            .currencyPrice.desktop {
-                grid-area: currencyPrice;
-            }
-            .total {
-                grid-area: total;
-            }
-        }
     }
 }

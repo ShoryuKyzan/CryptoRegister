@@ -1,0 +1,77 @@
+$phoneWidth: 480px; /* tried to import a global file, it didnt work, just copying it for the sake of time...*/
+
+.TransactionRow,
+.TransactionHeaderRow {
+    .conversion {
+        display: none
+    }
+    .cellHeader {
+        color: gray;
+    }
+    .amount > .currency {
+        margin-left: 0.3em;
+    }
+}
+
+@media (max-width: $phoneWidth) {
+    .TransactionHeaderRow.desktop {
+        display: none
+    }
+    .TransactionRow {
+        border-radius: 0.8em;
+        margin: 0.5em 0.5em;
+        padding: 0.5em;
+        font-size: 1.2em;
+        border: 1px solid darkgreen;
+
+        .desktop {
+            display: none;
+        }
+        .header {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .secondHeader {
+            margin-top: 0.3em;
+        }
+        .merchant, .item {
+            display: inline-block;
+        }
+        .amount > .currency {
+            display: inline-block;
+        }
+        .conversion {
+            display: block
+        }
+    }
+}
+@media (min-width: $phoneWidth) {
+    .TransactionHeaderRow {
+        padding-bottom: 0.5em;
+        color: gray;
+    }
+    .TransactionRow,
+    .TransactionHeaderRow {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-areas: "merchant item amount currencyPrice total";
+        .mobile {
+            display: none;
+        }
+        .merchant.desktop {
+            grid-area: merchant;
+        }
+        .item.desktop {
+            grid-area: item;
+        }
+        .amount {
+            grid-area: amount;
+        }
+        .currencyPrice.desktop {
+            grid-area: currencyPrice;
+        }
+        .total {
+            grid-area: total;
+        }
+    }
+}
