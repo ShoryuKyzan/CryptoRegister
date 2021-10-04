@@ -1,12 +1,13 @@
 import React from 'react';
 import {Transaction} from 'types/transaction'; // XXX dummy data
-import {Crypto} from 'types/crypto'; // XXX dummy data
+import {CryptoDict} from 'types/crypto'; // XXX dummy data
 import './Transactions.scss'
 import './TransactionRow.scss'
 import {TransactionRow} from './TransactionRow';
 
 
 interface _Props {
+    priceList: CryptoDict,
     items: Transaction[]
 }
 interface _State {
@@ -23,7 +24,7 @@ class Transactions extends React.Component<_Props, _State> {
         const rows: JSX.Element[] = [];
         let i = 0;
         this.props.items.forEach((t: Transaction) => {
-            rows.push(<TransactionRow key={i} transaction={t}/>);
+            rows.push(<TransactionRow priceList={this.props.priceList} key={i} transaction={t}/>);
             i += 1;
         });
         let addFields: JSX.Element | undefined = <div></div>;
@@ -32,7 +33,7 @@ class Transactions extends React.Component<_Props, _State> {
                 merchant: '',
                 item: '',
                 amount: 0,
-                crypto: {name: '', price: 0, updated: -1}
+                cryptoName: ''
             }} onSaved={() => this.setState({adding: false})}/>;
         }
         return (

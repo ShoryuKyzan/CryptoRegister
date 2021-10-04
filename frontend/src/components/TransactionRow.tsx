@@ -1,4 +1,5 @@
 import React from 'react';
+import { CryptoDict } from 'types/crypto';
 import {Transaction} from 'types/transaction'; // XXX dummy data
 import './TransactionRow.scss'
 
@@ -23,12 +24,14 @@ interface _TransactionValues {
 };
 
 const _defaultProps = {
-    editing: false
+    editing: false,
+    priceList: {}
 };
 interface _Props {
     editing?: boolean|undefined
     onSaved?: () => void|undefined
-    transaction: Transaction
+    transaction: Transaction,
+    priceList?: CryptoDict
 };
 interface _State {
     editing: boolean,
@@ -44,7 +47,7 @@ export class TransactionRow extends React.Component<_Props, _State> {
                 'merchant': props.transaction.merchant,
                 'item': props.transaction.item,
                 'amount': props.transaction.amount,
-                'cryptoName': props.transaction.crypto.name
+                'cryptoName': props.transaction.cryptoName
             }
         }
     }
@@ -56,8 +59,9 @@ export class TransactionRow extends React.Component<_Props, _State> {
     }
     render(){
         const t = this.props.transaction;
-        const cryptoPrice = (t.crypto.price).toFixed(2);
-        const dollarAmount = (t.crypto.price * t.amount).toFixed(2)
+        const currentPrice = this.props.priceList && this.props.priceList[t.cryptoName] ? this.props.priceList[t.cryptoName].price : 0;
+        const cryptoPrice = currentPrice.toFixed(2);
+        const dollarAmount = (currentPrice * t.amount).toFixed(2)
         return (
             <div className="TransactionRow">
                 {/* items move around depending on desktop or mobile */}
@@ -97,11 +101,11 @@ export class TransactionRow extends React.Component<_Props, _State> {
                     <span className="currency">
                         <EditableTextField name="cryptoName"
                             onChange={(name, val) => this.setFieldValue(name, val)}
-                            editing={this.state.editing} value={t.crypto.name}/>
+                            editing={this.state.editing} value={t.cryptoName}/>
                     </span>
                 </div>
                 <div className="currencyPrice desktop">${cryptoPrice}</div>
-                <div className="conversion">x ${cryptoPrice} USD/{t.crypto.name} = </div>
+                <div className="conversion">x ${cryptoPrice} USD/{t.cryptoName} = </div>
                 <div className="total">${dollarAmount}</div>
                 <div className="actions">
                     <button className={this.state.editing ? 'hide' : 'show'}
