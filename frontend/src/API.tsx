@@ -1,8 +1,22 @@
 import {Transaction} from 'types/transaction';
 import {CryptoDict} from 'types/crypto';
 
-async function callGETMethod(url: string){
-    return fetch(url).then(async response => {
+function callGETMethod(url: string){
+    return callHTTPMethod(url, 'GET');
+}
+function callPOSTMethod(url: string, body: string){
+    return callHTTPMethod(url, 'POST', body);
+}
+async function callHTTPMethod(url: string, method: string, body?: string){
+    const options: {method?: string, body?: string, headers?: { [header: string]: string } } = {};
+    if(method === 'POST'){
+        options.method = 'POST';
+        options.body = body;
+        options.headers = {
+         'Content-Type': 'application/json'
+        };
+    }
+    return fetch(url, options).then(async response => {
         if(response.status === 200){
             return response.json();
         }else{
@@ -30,7 +44,8 @@ export default class API {
         return callGETMethod(this.url + '/prices');
     }
 
-    save(id: number) {
+    save(t: Transaction) {
+        return callPOSTMethod(this.url + '/save', JSON.stringify(t));
     }
 
     delete(id: number) {

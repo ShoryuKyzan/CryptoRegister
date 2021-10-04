@@ -1,6 +1,6 @@
 import React from 'react';
-import {Transaction} from 'types/transaction'; // XXX dummy data
-import {CryptoDict} from 'types/crypto'; // XXX dummy data
+import {Transaction} from 'types/transaction';
+import {CryptoDict} from 'types/crypto';
 import './Transactions.scss'
 import './TransactionRow.scss'
 import {TransactionRow} from './TransactionRow';
@@ -8,7 +8,8 @@ import {TransactionRow} from './TransactionRow';
 
 interface _Props {
     priceList: CryptoDict,
-    items: Transaction[]
+    items: Transaction[],
+    onSaved: (val: Transaction) => void
 }
 interface _State {
     adding: boolean
@@ -24,7 +25,7 @@ class Transactions extends React.Component<_Props, _State> {
         const rows: JSX.Element[] = [];
         let i = 0;
         this.props.items.forEach((t: Transaction) => {
-            rows.push(<TransactionRow priceList={this.props.priceList} key={i} transaction={t}/>);
+            rows.push(<TransactionRow onSaved={this.props.onSaved} priceList={this.props.priceList} key={i} transaction={t}/>);
             i += 1;
         });
         let addFields: JSX.Element | undefined = <div></div>;
@@ -35,7 +36,10 @@ class Transactions extends React.Component<_Props, _State> {
                 item: '',
                 amount: 0,
                 cryptoName: ''
-            }} onSaved={() => this.setState({adding: false})}/>;
+            }} onSaved={(t: Transaction) => {
+                this.props.onSaved(t);
+                this.setState({adding: false});
+            }}/>;
         }
         return (
             <div className="Transactions">

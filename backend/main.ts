@@ -4,12 +4,18 @@ import {BitpayRate} from './types/bitpay';
 import {Transaction} from './types/transaction';
 import fetch from 'node-fetch';
 import util from 'util';
+import fs from 'fs';
 const app = express();
 const port = 8080;
 
 import cors from 'cors';
 
+app.use(express.json())
 
+//////////////////////////////////////
+// Default example data and init
+// Persistant data is loaded below
+//////////////////////////////////////
 //////////////////////////////////////
 let cryptos: CryptoDict = {
     'BTC': {
@@ -30,6 +36,7 @@ let cryptos: CryptoDict = {
 };  // XXX dummy data
 
 let transactions: Transaction[] = [];
+let _defaultTransactions: Transaction[] = [];
 const _templates: Transaction[] = [
     {
         id: -1,
@@ -74,17 +81,37 @@ const _templates: Transaction[] = [
         'cryptoName': 'ETH'
     }
 ];
-for(let i = 0; i < 20; i += 1) {
-    transactions.unshift(..._templates);
+// Create IDs and data
+let j = 1;
+for(let i = 0; i < 1; i += 1) {
+    // prevent object reference copying completely
+    _templates.forEach((t: Transaction) => {
+        // this is actually the best way to deep copy ironically...
+        t.id = j;
+        let t2: Transaction = JSON.parse(JSON.stringify(t));
+        _defaultTransactions.push(t2);
+        j += 1;
+    });
+    
 }
-// Create IDs
-let i = 1;
-transactions.forEach((t) => {
-    t.id = i;
-    i += 1; 
-});
-// XXX dummy data
 
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////
+// load persisted data
+try{
+    const transStr: string = fs.readFileSync("./transactions.json").toString('utf8');
+    transactions = JSON.parse(transStr);
+}catch(e){
+    console.log("transactions.json read failed (probably does not exist), continuing.");
+    transactions = _defaultTransactions;
+    save();
+}
+
+function save() {
+    const str = JSON.stringify(transactions);
+    fs.writeFileSync('./transactions.json', str);
+}
 // //////////////////////////////////////
 
 
@@ -123,7 +150,7 @@ app.get('/prices', cors(copts), (req, res) => {
                 cryptos[cryptoName].price = rate.rate;
                 cryptos[cryptoName].updated = Date.now();
             });
-            res.send(JSON.stringify(cryptos)); // XXX
+            res.send(JSON.stringify(cryptos));
         }catch(e){
             console.error('parse error', e);
             throw e;
@@ -133,6 +160,21 @@ app.get('/prices', cors(copts), (req, res) => {
         console.error('request error', JSON.stringify(err));
     });
 
+});
+app.options('/save', cors());
+app.post('/save', cors(copts), (req, res) => {
+    try {
+        const updatedRecord = req.body;
+        // they are filed by index
+        // 1-based id's
+        transactions[updatedRecord.id - 1] = updatedRecord;
+        console.log('updated', transactions[updatedRecord.id - 1]);
+        save();
+        res.send(JSON.stringify({}));
+    }catch(e){
+        res.sendStatus(500);
+        console.error('request error', e);
+    }
 });
 
 app.listen(port, () => console.log(`Server started on ${port}!`));

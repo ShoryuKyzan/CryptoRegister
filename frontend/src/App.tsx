@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './components/Header';
 import Transactions from './components/Transactions';
-import {Transaction} from 'types/transaction'; // XXX dummy data
+import {Transaction} from 'types/transaction';
 import API from './API';
 import ReactLoading from 'react-loading';
 import './App.scss'
@@ -57,12 +57,21 @@ class App extends React.Component<{}, _State> {
 
     this.api.getPrices()
     .then((dict: CryptoDict) => {
-      this.setState({priceDict: dict}); // XXX figure out how updates gonna work...
+      this.setState({priceDict: dict});
     })
     .then(() => {
       this.cryptoRefreshTimer = setTimeout(() => this.refreshPrices(), this.PRICE_REFRESH_INTERVAL)
     });
 
+  }
+
+  save(t: Transaction){
+    // t.id is invalid? its a new one...
+    this.setLoading(true);
+    this.api.save(t)
+    .finally(() => {
+      this.setLoading(false);
+    });
   }
 
   render(){
@@ -91,7 +100,7 @@ class App extends React.Component<{}, _State> {
         <div className={"content " + loadingClass}>
           {/* scrollable container */}
           {/* admittedly passing pricedict down isn't the best solution (use redux), but this will have to do for short term finishing this */}
-          <Transactions priceList={this.state.priceDict} items={this.state.transactions}/>
+          <Transactions onSaved={(t: Transaction) => this.save(t)} priceList={this.state.priceDict} items={this.state.transactions}/>
           {isLoading}
         </div>
       </div>

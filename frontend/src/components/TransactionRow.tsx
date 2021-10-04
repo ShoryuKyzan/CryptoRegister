@@ -1,6 +1,6 @@
 import React from 'react';
 import { CryptoDict } from 'types/crypto';
-import {Transaction} from 'types/transaction'; // XXX dummy data
+import {Transaction} from 'types/transaction';
 import './TransactionRow.scss'
 
 interface _EFProps {
@@ -29,7 +29,7 @@ const _defaultProps = {
 };
 interface _Props {
     editing?: boolean|undefined
-    onSaved?: () => void|undefined
+    onSaved?: (val: Transaction) => void|undefined
     transaction: Transaction,
     priceList?: CryptoDict
 };
@@ -44,6 +44,7 @@ export class TransactionRow extends React.Component<_Props, _State> {
         this.state = {
             editing: props.editing ? true : false,
             editingValues: {
+                'id': props.transaction.id,
                 'merchant': props.transaction.merchant,
                 'item': props.transaction.item,
                 'amount': props.transaction.amount,
@@ -52,13 +53,46 @@ export class TransactionRow extends React.Component<_Props, _State> {
         }
     }
 
+    save(){
+        if(this.props.onSaved){
+            let t: Transaction = {
+                id: parseInt(this.state.editingValues['id'].toString(), 10),
+                merchant: this.state.editingValues['merchant'].toString(),
+                item: this.state.editingValues['item'].toString(),
+                amount: parseInt(this.state.editingValues['amount'].toString(), 10),
+                cryptoName: this.state.editingValues['cryptoName'].toString()
+            }
+            this.props.onSaved(t);
+        }
+
+    }
+
+    resetEditing(){
+        // go back to initial values
+        this.setState({
+            editingValues: {
+                'id': this.props.transaction.id,
+                'merchant': this.props.transaction.merchant,
+                'item': this.props.transaction.item,
+                'amount': this.props.transaction.amount,
+                'cryptoName': this.props.transaction.cryptoName
+            }
+        });
+    }
+
     setFieldValue(name: string, val: string){
-        const o: _TransactionValues = {};
+        const o: _TransactionValues = this.state.editingValues;
         o[name] = val;
         this.setState({editingValues: o});
     }
     render(){
-        const t = this.props.transaction;
+        const t: Transaction = {
+            id: parseInt(this.state.editingValues['id'].toString(), 10),
+            merchant: this.state.editingValues['merchant'].toString(),
+            item: this.state.editingValues['item'].toString(),
+            amount: parseInt(this.state.editingValues['amount'].toString(), 10),
+            cryptoName: this.state.editingValues['cryptoName'].toString()
+        }
         const currentPrice = this.props.priceList && this.props.priceList[t.cryptoName] ? this.props.priceList[t.cryptoName].price : 0;
         const cryptoPrice = currentPrice.toFixed(2);
         const dollarAmount = (currentPrice * t.amount).toFixed(2)
@@ -113,10 +147,13 @@ export class TransactionRow extends React.Component<_Props, _State> {
                     <button className={this.state.editing ? 'show' : 'hide'}
                         onClick={() => {
                             this.setState({editing: false});
-                            if(this.props.onSaved){
-                                this.props.onSaved();
-                            }
+                            this.save();
                         }}>Done</button>
+                    <button className={this.state.editing ? 'show' : 'hide'}
+                        onClick={() => {
+                            this.resetEditing();
+                            this.setState({editing: false});
+                        }}>Cancel</button>
                     <button className={this.state.editing ? 'hide' : 'show'}>
                         Delete
                     </button>
