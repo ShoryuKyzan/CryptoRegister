@@ -88,7 +88,12 @@ var copts = {
 // // const SEARCH_URL = 'https://api.stocktwits.com/api/2/streams/symbol/%s.json';
 
 app.get('/items', cors(copts), (req, res) => {
-    res.send(JSON.stringify([]));
+    res.send(JSON.stringify(transactions));
+});
+
+app.get('/prices', cors(copts), (req, res) => {
+    res.send(JSON.stringify(cryptos));
+});
 
 //     // // parse
 //     // const symbolList = input.split(' ');
@@ -114,7 +119,6 @@ app.get('/items', cors(copts), (req, res) => {
 //     //     console.error('request error', JSON.stringify(err));
 //     // });
 
-});
 
 // /**
 //  * Parses results

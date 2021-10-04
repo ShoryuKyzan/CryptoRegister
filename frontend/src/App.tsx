@@ -16,7 +16,7 @@ class App extends React.Component<{}, _State> {
   PRICE_REFRESH_INTERVAL: number = 2 * 60000;
   cryptoRefreshTimer?: NodeJS.Timeout = undefined;
   appName: string = "Crypto Register";
-  api: API = new API('http://127.0.0.1:8080/');
+  api: API = new API('http://127.0.0.1:8080');
   
   constructor(props: {}){
     super(props)
