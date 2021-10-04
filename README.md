@@ -6,6 +6,7 @@ Prices are recorded in terms of crypto and converted to a USD amount. Prices ref
 * Mobile first! Entire design is responsive. Portrait mobile view shows up to a maximum of 480px width.
 * Learned something new for this: CSS Grid responsive tables.
 * Took some liberties with the user interface for usability's sake, and since this is designed to impress.
+* TODO: fix mobile landscape view. Big numbers break it.
 
 ## TODOS
 * make responsive, mobile first

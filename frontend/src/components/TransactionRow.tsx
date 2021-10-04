@@ -56,6 +56,8 @@ export class TransactionRow extends React.Component<_Props, _State> {
     }
     render(){
         const t = this.props.transaction;
+        const cryptoPrice = (t.crypto.price).toFixed(2);
+        const dollarAmount = (t.crypto.price * t.amount).toFixed(2)
         return (
             <div className="TransactionRow">
                 {/* items move around depending on desktop or mobile */}
@@ -83,22 +85,24 @@ export class TransactionRow extends React.Component<_Props, _State> {
                         onChange={(name, val) => this.setFieldValue(name, val)}
                         editing={this.state.editing} value={t.item}/>
                 </div>
-                <div className="header secondHeader mobile">
+                <div className="header amountHeader mobile">
                     <span className="cellHeader">Amount</span>
                 </div>
                 <div className="amount">
-                    <EditableTextField name="amount"
-                        onChange={(name, val) => this.setFieldValue(name, val)}
-                        editing={this.state.editing} value={t.amount}/>
+                    <span className="amountNumber">
+                        <EditableTextField name="amount"
+                            onChange={(name, val) => this.setFieldValue(name, val)}
+                            editing={this.state.editing} value={t.amount.toFixed(8)}/>
+                    </span>
                     <span className="currency">
                         <EditableTextField name="cryptoName"
                             onChange={(name, val) => this.setFieldValue(name, val)}
                             editing={this.state.editing} value={t.crypto.name}/>
                     </span>
                 </div>
-                <div className="currencyPrice desktop">${t.crypto.price}</div>
-                <div className="conversion">x ${t.crypto.price} USD/{t.crypto.name} = </div>
-                <div className="total">${t.crypto.price * t.amount}</div>
+                <div className="currencyPrice desktop">${cryptoPrice}</div>
+                <div className="conversion">x ${cryptoPrice} USD/{t.crypto.name} = </div>
+                <div className="total">${dollarAmount}</div>
                 <div className="actions">
                     <button className={this.state.editing ? 'hide' : 'show'}
                          onClick={() => this.setState({editing: true})}>Edit</button>

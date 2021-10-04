@@ -11,6 +11,14 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
     .amount > .currency {
         margin-left: 0.3em;
     }
+    .amount {
+        display: grid;
+        grid-template-columns: 1fr 6em;
+    }
+    .amount > .amountNumber {
+        text-align: right;
+    }
+
     button.show {
         display: default;
     }
@@ -34,11 +42,14 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
             display: grid;
             grid-template-columns: repeat(2, 1fr);
         }
-        .secondHeader {
+        .amountHeader {
             margin-top: 0.3em;
         }
         .merchant, .item {
             display: inline-block;
+        }
+        .amountHeader {
+            text-align: right;
         }
         .amount > .currency {
             display: inline-block;
@@ -75,9 +86,14 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
         }
         .total {
             grid-area: total;
+            text-align: right;
+            margin-right: 1em;
         }
         .mobile {
             display: none;
         }
+    }
+    .TransactionHeaderRow .amount {
+        text-align: right;
     }
 }
