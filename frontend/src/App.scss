@@ -1,13 +1,34 @@
-.App {
-    display: grid;
+.absolutePos {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
+}
+.App {
+    @extend .absolutePos;
+    display: grid;
     grid-template-rows: 4em 1fr;
     .content {
         overflow-y: scroll;
         padding-bottom: 1em;
+        position: relative;
+        .loadingWrapper {
+            .banner {
+                @extend .absolutePos;
+                background-color: lightgray;
+                opacity: 0.5;
+            }
+            .loadingWrapper2 {
+                @extend .absolutePos;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+        }
+    }
+    .content.loading {
+        overflow: hidden;
     }
 }
