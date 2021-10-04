@@ -1,5 +1,6 @@
 import express from 'express';
 import {CryptoDict} from './types/crypto';
+import {BitpayRate} from './types/bitpay';
 import {Transaction} from './types/transaction';
 import fetch from 'node-fetch';
 import util from 'util';
@@ -16,9 +17,9 @@ let cryptos: CryptoDict = {
         price: 42000.00,
         updated: -1
     },
-    'LINK': {
-        name: 'LINK',
-        price: 25.00,
+    'DOGE': {
+        name: 'DOGE',
+        price: 0.50,
         updated: -1
     },
     'ETH': {
@@ -42,7 +43,7 @@ const _templates: Transaction[] = [
         'merchant': 'Haven',
         'item': 'Winged Crown',
         'amount': 100000001.11,
-        'cryptoName': 'LINK'
+        'cryptoName': 'DOGE'
     },
     {
         id: -1,
@@ -60,10 +61,10 @@ const _templates: Transaction[] = [
     },
     {
         id: -1,
-        'merchant': 'Moonbeam',
+        'merchant': 'Moonbow',
         'item': 'Macaroni',
         'amount': 0.2,
-        'cryptoName': 'LINK'
+        'cryptoName': 'DOGE'
     },
     {
         id: -1,
@@ -95,8 +96,7 @@ var copts = {
     callback(null, true);
   }
 }
-
-
+const RETRIEVE_URL = 'https://bitpay.com/api/rates/%s/USD'
 // // const SEARCH_URL = 'https://api.stocktwits.com/api/2/streams/symbol/%s.json';
 
 app.get('/items', cors(copts), (req, res) => {
@@ -104,83 +104,35 @@ app.get('/items', cors(copts), (req, res) => {
 });
 
 app.get('/prices', cors(copts), (req, res) => {
-    res.send(JSON.stringify(cryptos));
+
+    // retrieve
+    const pList = [];
+    const cryptoList: string[] = [];
+    Object.keys(cryptos).forEach(cryptoName => {
+        cryptoList.push(cryptoName);
+        const url = util.format(RETRIEVE_URL, cryptoName);
+        console.log('fetching', url);
+        const prom = fetch(url).then(response => response.json());
+        pList.push(prom);
+    });
+    Promise.all(pList).then(results => {
+        try{
+            // parse and return
+            results.forEach((rate: BitpayRate, i) => {
+                let cryptoName: string = cryptoList[i]
+                cryptos[cryptoName].price = rate.rate;
+                cryptos[cryptoName].updated = Date.now();
+            });
+            res.send(JSON.stringify(cryptos)); // XXX
+        }catch(e){
+            console.error('parse error', e);
+            throw e;
+        }
+    }).catch(err => {
+        res.sendStatus(500);
+        console.error('request error', JSON.stringify(err));
+    });
+
 });
-
-//     // // parse
-//     // const symbolList = input.split(' ');
-
-//     // // retrieve
-//     // const pList = [];
-//     // symbolList.forEach(symbol => {
-//     //     const url = util.format(SEARCH_URL, symbol);
-//     //     console.log('fetching', url);
-//     //     const prom = fetch(url).then(response => response.json());
-//     //     pList.push(prom);
-//     // });
-//     // Promise.all(pList).then(results => {
-//     //     try{
-//     //         const parsed = parseResults(symbolList, results);
-//     //         res.send(JSON.stringify(parsed));
-//     //     }catch(e){
-//     //         console.error('parse error', e);
-//     //         throw e;
-//     //     }
-//     // }).catch(err => {
-//     //     res.sendStatus('500');
-//     //     console.error('request error', JSON.stringify(err));
-//     // });
-
-
-// /**
-//  * Parses results
-//  * 
-//  * @param {Array<String>} symbolList original search terms
-//  * @param {Array<Object>} results results from stocktwit
-//  * 
-//  * @returns {Array<Object>} Returns results parsed into useable form. Sorted descending by date
-//  */
-// // function parseResults(symbolList, results) {
-// //     // use hash to ensure unique
-// //     const messages = {};
-// //     const errorList = [];
-
-// //     // TODO use caching to determine whether there's new results. use 'since' field possibly
-// //     // extract all messages
-// //     results.forEach((list, i) => {
-// //         // check for errors and append nothing if so
-// //         if(list.response.status !== 200){
-// //             const errors = {
-// //                 status: list.response.status,
-// //                 symbol: symbolList[i],
-// //                 messages: []
-// //             };
-// //             list.errors.forEach(error => errors.messages.push(error.message))
-// //             errorList.push(errors);
-// //             return;
-// //         }
-// //         list.messages.forEach(msg => {
-// //             messages[msg.id] = {
-// //                 id: msg.id,
-// //                 date: Date.parse(msg.created_at),
-// //                 // strip html tags out, but allow for html special codes like &amp;
-// //                 content: msg.body.replace(/[<>]/g, ''),
-// //                 user: msg.user.username,
-// //                 icon: msg.user.avatar_url,
-// //                 // extra: which symbols in there
-// //                 symbols: msg.symbols.map(sym => sym.symbol)
-// //             };
-// //         })
-// //     });
-    
-// //     const ret = Object.values(messages);
-// //     // sort all messages descending by date
-// //     ret.sort((a,b) => b.date - a.date);
-
-// //     return {
-// //         errors: errorList,
-// //         results: ret
-// //     };
-// // }
 
 app.listen(port, () => console.log(`Server started on ${port}!`));
