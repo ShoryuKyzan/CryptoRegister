@@ -1,105 +1,94 @@
 import express from 'express';
-
+import {CryptoDict} from './types/crypto';
+import {Transaction} from './types/transaction';
+import fetch from 'node-fetch';
+import util from 'util';
 const app = express();
-const port = 3000;
-app.get('/', (req, res) => {
-  res.send('The sedulous hyena ate the antelope!');
-});
-app.listen(port, () => {
-  return console.log(`server is listening on ${port}`);
-});
+const port = 8080;
 
-// const express = require('express');
-// const [CryptoDict] = require('types/CryptoDict');
-// const fetch = require('node-fetch');
-// const util = require('util');
-// const app = express();
-// const port = 8080;
-
-// const cors = require('cors')
+import cors from 'cors';
 
 
+//////////////////////////////////////
+let cryptos: CryptoDict = {
+    'BTC': {
+        name: 'BTC',
+        price: 42000.00,
+        updated: -1
+    },
+    'LINK': {
+        name: 'LINK',
+        price: 25.00,
+        updated: -1
+    },
+    'ETH': {
+        name: 'ETH',
+        price: 2600,
+        updated: -1
+    }
+};  // XXX dummy data
 
-// //////////////////////////////////////
-// let cryptos: CryptoDict = {
-//     'BTC': {
-//         name: 'BTC',
-//         price: 42000.00,
-//         updated: -1
-//     },
-//     'LINK': {
-//         name: 'LINK',
-//         price: 25.00,
-//         updated: -1
-//     },
-//     'ETH': {
-//         name: 'ETH',
-//         price: 2600,
-//         updated: -1
-//     }
-// };  // XXX dummy data
-
-// let transactions: Transaction[] = [];
-// const _templates: Transaction[] = [
-//     {
-//         'merchant': 'Alphabelle',
-//         'item': 'Crystal',
-//         'amount': 999.99,
-//         'cryptoName': 'BTC'
-//     },
-//     {
-//         'merchant': 'Haven',
-//         'item': 'Winged Crown',
-//         'amount': 100000001.11,
-//         'cryptoName': 'LINK'
-//     },
-//     {
-//         'merchant': 'Starscout',
-//         'item': 'Rounded Diamond',
-//         'amount': 0.1,
-//         'cryptoName': 'ETH'
-//     },
-//     {
-//         'merchant': 'Haven',
-//         'item': 'Flying Dog',
-//         'amount': 2000000000002.11,
-//         'cryptoName': 'BTC'
-//     },
-//     {
-//         'merchant': 'Moonbeam',
-//         'item': 'Macaroni',
-//         'amount': 0.2,
-//         'cryptoName': 'LINK'
-//     },
-//     {
-//         'merchant': 'Trailblazer',
-//         'item': 'Silver Star Pin',
-//         'amount': 1,
-//         'cryptoName': 'ETH'
-//     }
-// ];
-// for(let i = 0; i < 20; i += 1) {
-//     transactions.unshift(..._templates);
-// }
-//  // XXX dummy data
+let transactions: Transaction[] = [];
+const _templates: Transaction[] = [
+    {
+        'merchant': 'Alphabelle',
+        'item': 'Crystal',
+        'amount': 999.99,
+        'cryptoName': 'BTC'
+    },
+    {
+        'merchant': 'Haven',
+        'item': 'Winged Crown',
+        'amount': 100000001.11,
+        'cryptoName': 'LINK'
+    },
+    {
+        'merchant': 'Starscout',
+        'item': 'Rounded Diamond',
+        'amount': 0.1,
+        'cryptoName': 'ETH'
+    },
+    {
+        'merchant': 'Haven',
+        'item': 'Flying Dog',
+        'amount': 2000000000002.11,
+        'cryptoName': 'BTC'
+    },
+    {
+        'merchant': 'Moonbeam',
+        'item': 'Macaroni',
+        'amount': 0.2,
+        'cryptoName': 'LINK'
+    },
+    {
+        'merchant': 'Trailblazer',
+        'item': 'Silver Star Pin',
+        'amount': 1,
+        'cryptoName': 'ETH'
+    }
+];
+for(let i = 0; i < 20; i += 1) {
+    transactions.unshift(..._templates);
+}
+// XXX dummy data
 
 // //////////////////////////////////////
 
 
 
 
-// var copts = {
-//   origin: function (origin, callback) {
-//     // allow all
-//     callback(null, true);
-//   }
-// }
+var copts = {
+  origin: function (origin, callback) {
+    // allow all
+    callback(null, true);
+  }
+}
 
 
 // // const SEARCH_URL = 'https://api.stocktwits.com/api/2/streams/symbol/%s.json';
 
-// app.get('/items', cors(copts), (req, res) => {
-//     res.send(JSON.stringify([]));
+app.get('/items', cors(copts), (req, res) => {
+    res.send(JSON.stringify([]));
 
 //     // // parse
 //     // const symbolList = input.split(' ');
@@ -125,7 +114,7 @@ app.listen(port, () => {
 //     //     console.error('request error', JSON.stringify(err));
 //     // });
 
-// });
+});
 
 // /**
 //  * Parses results
@@ -178,4 +167,4 @@ app.listen(port, () => {
 // //     };
 // // }
 
-// app.listen(port, () => console.log(`Server started on ${port}!`));
+app.listen(port, () => console.log(`Server started on ${port}!`));
