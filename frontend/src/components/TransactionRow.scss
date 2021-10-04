@@ -11,6 +11,12 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
     .amount > .currency {
         margin-left: 0.3em;
     }
+    button.show {
+        display: default;
+    }
+    button.hide {
+        display: none;
+    }
 }
 
 @media (max-width: $phoneWidth) {
@@ -24,9 +30,6 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
         font-size: 1.2em;
         border: 1px solid darkgreen;
 
-        .desktop {
-            display: none;
-        }
         .header {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -43,6 +46,9 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
         .conversion {
             display: block
         }
+        .desktop {
+            display: none;
+        }
     }
 }
 @media (min-width: $phoneWidth) {
@@ -53,11 +59,8 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
     .TransactionRow,
     .TransactionHeaderRow {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(5, 1fr) 8em;
         grid-template-areas: "merchant item amount currencyPrice total";
-        .mobile {
-            display: none;
-        }
         .merchant.desktop {
             grid-area: merchant;
         }
@@ -72,6 +75,9 @@ $phoneWidth: 480px; /* tried to import a global file, it didnt work, just copyin
         }
         .total {
             grid-area: total;
+        }
+        .mobile {
+            display: none;
         }
     }
 }
